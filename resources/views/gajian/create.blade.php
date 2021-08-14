@@ -1,0 +1,105 @@
+@extends('layouts.nav')
+
+@section('content')
+    <div class="main-content flex-1 bg-gray-100 mt-12 md:mt-2 pb-24 md:pb-5">
+
+        <!-- Title -->
+        <div class="bg-gray-800 pt-3">
+            <div class="rounded-tl-3xl bg-gradient-to-r from-blue-900 to-gray-800 p-4 shadow text-2xl text-white">
+                <h3 class="font-bold pl-2">Isi Gajian</h3>
+            </div>
+        </div>
+
+        <!-- IF Error -->
+        @if ($errors->any())
+        <div class="w-3/5 m-auto">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li class="w-full mb-2 text-gray-50 bg-red-700 rounded-xl py-4 mt-10">
+                        {{ $error }}
+                    </li>
+                @endforeach
+            </ul>
+        </div>
+        @endif
+
+        @if (session()->has('message'))
+            <div class="w-4/5 m-auto mt-10 pl-2">
+                <p class="text-white bg-red-500 rounded-2xl py-4 text-center border-b-4 border-red-700">
+                {{ session()->get('message') }}
+                </p>
+            </div>
+        @endif
+
+        <!-- Register Card -->
+        <div class="flex flex-wrap">
+            <div class="container w-full md:w-4/5 xl:w-3/5  mx-auto px-2 py-10">
+                <section class="flex flex-col break-words bg-white sm:border-1 sm:rounded-md sm:shadow-lg">
+
+                    <!-- Form start -->
+                    <form class="w-full px-6 space-y-6 sm:px-10 sm:space-y-8" 
+                        method="POST"
+                        action="/gajian"
+                        enctype="multipart/form-data">
+                        @csrf
+
+                        <!-- Karyawan ID -->
+                        <div class="flex flex-wrap">
+                            <label for="karyawan_id" class="block text-gray-700 text-lg font-bold mb-2 sm:mb-4">
+                                {{ __('Karyawan_id') }}:
+                            </label>
+
+                            <input id="karyawan_id" type="number" class="form-input w-full @error('karyawan_id')  border-red-500 @enderror"
+                                name="karyawan_id" value="{{ old('karyawan_id') }}" required >
+
+                            @error('karyawan_id')
+                            <p class="text-red-500 text-xs italic mt-4">
+                                {{ $message }}
+                            </p>
+                            @enderror
+                        </div>
+
+                        <!-- Tanggal -->
+                        <div class="flex flex-wrap">
+                            <label for="tanggal" class="block text-gray-700 text-lg font-bold mb-2 sm:mb-4">
+                                {{ __('Tanggal') }}:
+                            </label>
+
+                            <input id="tanggal" type="date" class="form-input w-full @error('tanggal')  border-red-500 @enderror"
+                                name="tanggal" value="{{ old('tanggal') }}" required >
+
+                            @error('tanggal')
+                            <p class="text-red-500 text-xs italic mt-4">
+                                {{ $message }}
+                            </p>
+                            @enderror
+                        </div>
+
+                        <!-- Jumlah Gaji -->
+                        <div class="flex flex-wrap">
+                            <label for="jumlah_gaji" class="block text-gray-700 text-lg font-bold mb-2 sm:mb-4">
+                                {{ __('Jumlah Gaji') }}:
+                            </label>
+
+                            <input id="jumlah_gaji" type="number" class="form-input w-full @error('jumlah_gaji')  border-red-500 @enderror"
+                                name="jumlah_gaji" value="{{ old('jumlah_gaji') }}" required>
+
+                            @error('jumlah_gaji')
+                            <p class="text-red-500 text-xs italic mt-4">
+                                {{ $message }}
+                            </p>
+                            @enderror
+                        </div>
+
+                        <div class="flex flex-wrap">
+                            <button type="submit"
+                                class="mb-10 w-full select-none font-bold whitespace-no-wrap p-3 rounded-lg text-base leading-normal no-underline text-gray-100 bg-blue-700 hover:bg-blue-500 sm:py-4">
+                                {{ __('Saatnya Gajian') }}
+                            </button>
+                        </div>
+                    </form>
+                </section>
+            </div>
+        </div>
+    </div>
+@endsection
